@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:light/light.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import 'lux_chart.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -34,8 +36,9 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+double luxValue = 100;
+
 class _MyHomePageState extends State<MyHomePage> {
-  double luxValue = 100;
   double sliderValue = 100;
   final double maxSliderValue = 2000;
 
@@ -97,6 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
             ),
+            LuxChart(),
           ],
         ),
       ),
