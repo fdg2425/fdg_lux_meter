@@ -1,4 +1,9 @@
+// ignore_for_file: avoid_print
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:light/light.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 void main() {
@@ -31,13 +36,50 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   double luxValue = 100;
+  double sliderValue = 100;
+  final double maxSliderValue = 2000;
+
+  StreamSubscription<int>? _lightEvents;
+
+  void startListening() {
+    try {
+      _lightEvents = Light().lightSensorStream.listen(
+        (value) => setState(() {
+          luxValue = value.toDouble();
+          if (luxValue < maxSliderValue) {
+            sliderValue = luxValue;
+          }
+        }),
+      );
+    } catch (exception) {
+      print(exception);
+    }
+  }
+
+  void stopListening() {
+    _lightEvents?.cancel();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startListening();
+  }
+
+  @override
+  void dispose() {
+    stopListening();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
+        //backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        centerTitle: true,
         title: Text(widget.title),
       ),
       body: Center(
@@ -47,11 +89,11 @@ class _MyHomePageState extends State<MyHomePage> {
             _getRadialGauge(),
             Slider(
               min: 0,
-              max: 2000,
-              value: luxValue,
+              max: maxSliderValue,
+              value: sliderValue,
               onChanged: (value) {
                 setState(() {
-                  luxValue = value;
+                  luxValue = sliderValue = value;
                 });
               },
             ),
