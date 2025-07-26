@@ -147,7 +147,7 @@ class MyHomePageState extends State<MyHomePage> {
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
               widget: Text(
-                luxValue.toStringAsFixed(0),
+                "${luxValue.toStringAsFixed(0)} lx",
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
               angle: 90,

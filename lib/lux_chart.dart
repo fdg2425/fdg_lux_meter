@@ -58,17 +58,23 @@ class _LuxChartState extends State<LuxChart> {
                 gridData: const FlGridData(show: true, drawVerticalLine: false),
                 borderData: FlBorderData(show: true),
                 lineBarsData: [luxLine(luxPoints)],
-                titlesData: const FlTitlesData(
+                titlesData: FlTitlesData(
                   show: true,
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
+                  rightTitles: AxisTitles(
+                    //axisNameWidget: const Text("lux"),
+                    //axisNameSize: 20,
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 55,
+                      //interval: 250,
+                      getTitlesWidget: (value, meta) {
+                        return Text(" ${value.toStringAsFixed(0)} lx");
+                      },
+                    ),
                   ),
-                  topTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
+                  leftTitles: AxisTitles(sideTitles: SideTitles()),
+                  topTitles: AxisTitles(sideTitles: SideTitles()),
+                  bottomTitles: AxisTitles(sideTitles: SideTitles()),
                 ),
               ),
             ),
