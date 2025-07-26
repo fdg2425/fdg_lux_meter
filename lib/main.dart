@@ -33,14 +33,15 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => MyHomePageState();
 }
 
-double luxValue = 100;
-
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   double sliderValue = 100;
   final double maxSliderValue = 2000;
+  double _luxValue = 100;
+
+  double get luxValue => _luxValue;
 
   StreamSubscription<int>? _lightEvents;
 
@@ -48,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       _lightEvents = Light().lightSensorStream.listen(
         (value) => setState(() {
-          luxValue = value.toDouble();
+          _luxValue = value.toDouble();
           if (luxValue < maxSliderValue) {
             sliderValue = luxValue;
           }
@@ -96,11 +97,11 @@ class _MyHomePageState extends State<MyHomePage> {
               value: sliderValue,
               onChanged: (value) {
                 setState(() {
-                  luxValue = sliderValue = value;
+                  _luxValue = sliderValue = value;
                 });
               },
             ),
-            LuxChart(),
+            LuxChart(homePageState: this),
           ],
         ),
       ),

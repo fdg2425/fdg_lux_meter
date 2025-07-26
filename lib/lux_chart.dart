@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 
 class LuxChart extends StatefulWidget {
-  const LuxChart({super.key});
+  const LuxChart({super.key, required this.homePageState});
+
+  final MyHomePageState homePageState;
 
   final Color sinColor = Colors.blue;
   final Color cosColor = Colors.pink;
@@ -32,7 +34,7 @@ class _LuxChartState extends State<LuxChart> {
         sinPoints.removeAt(0);
       }
       setState(() {
-        sinPoints.add(FlSpot(xValue, luxValue));
+        sinPoints.add(FlSpot(xValue, widget.homePageState.luxValue));
       });
       xValue += step;
     });
