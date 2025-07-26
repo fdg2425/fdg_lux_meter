@@ -42,45 +42,36 @@ class _LuxChartState extends State<LuxChart> {
   @override
   Widget build(BuildContext context) {
     return luxPoints.isNotEmpty
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 12),
-              AspectRatio(
-                aspectRatio: 1.5,
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: LineChart(
-                    LineChartData(
-                      minY: 0,
-                      maxY: 2000,
-                      minX: luxPoints.first.x,
-                      maxX: luxPoints.last.x,
-                      lineTouchData: const LineTouchData(enabled: false),
-                      clipData: const FlClipData.all(),
-                      gridData: const FlGridData(
-                        show: true,
-                        drawVerticalLine: false,
-                      ),
-                      borderData: FlBorderData(show: true),
-                      lineBarsData: [luxLine(luxPoints)],
-                      titlesData: const FlTitlesData(
-                        show: true,
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        topTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                      ),
-                    ),
+        ?
+          // With a Column around the Padding the Expanded in main did not work -> chart was not shown ?!
+          // Therefore I deleted the Column here
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+            child: LineChart(
+              LineChartData(
+                minY: 0,
+                maxY: 2000,
+                minX: luxPoints.first.x,
+                maxX: luxPoints.last.x,
+                lineTouchData: const LineTouchData(enabled: false),
+                clipData: const FlClipData.all(),
+                gridData: const FlGridData(show: true, drawVerticalLine: false),
+                borderData: FlBorderData(show: true),
+                lineBarsData: [luxLine(luxPoints)],
+                titlesData: const FlTitlesData(
+                  show: true,
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
                   ),
                 ),
               ),
-            ],
+            ),
           )
         : Container();
   }

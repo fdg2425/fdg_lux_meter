@@ -91,6 +91,7 @@ class MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            SizedBox(height: 20),
             _getRadialGauge(),
             Slider(
               min: 0,
@@ -102,7 +103,7 @@ class MyHomePageState extends State<MyHomePage> {
                 });
               },
             ),
-            LuxChart(homePageState: this),
+            Expanded(child: LuxChart(homePageState: this)),
           ],
         ),
       ),
