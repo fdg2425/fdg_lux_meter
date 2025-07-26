@@ -48,6 +48,7 @@ class _LuxChartState extends State<LuxChart> {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
             child: LineChart(
+              duration: Duration.zero,
               LineChartData(
                 minY: 0,
                 maxY: 2000,
