@@ -53,7 +53,7 @@ class _LuxChartState extends State<LuxChart> {
                   child: LineChart(
                     LineChartData(
                       minY: 0,
-                      maxY: 1500,
+                      maxY: 2000,
                       minX: luxPoints.first.x,
                       maxX: luxPoints.last.x,
                       lineTouchData: const LineTouchData(enabled: false),
@@ -64,7 +64,18 @@ class _LuxChartState extends State<LuxChart> {
                       ),
                       borderData: FlBorderData(show: true),
                       lineBarsData: [luxLine(luxPoints)],
-                      titlesData: const FlTitlesData(show: true),
+                      titlesData: const FlTitlesData(
+                        show: true,
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        topTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                      ),
                     ),
                   ),
                 ),
