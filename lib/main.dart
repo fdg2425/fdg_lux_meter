@@ -84,7 +84,8 @@ class MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         centerTitle: true,
-        title: Text(widget.title),
+        //title: Text(widget.title),
+        title: Text("FDG Lux Meter"),
       ),
       body: Center(
         child: Column(

@@ -10,8 +10,7 @@ class LuxChart extends StatefulWidget {
 
   final MyHomePageState homePageState;
 
-  final Color sinColor = Colors.blue;
-  final Color cosColor = Colors.pink;
+  final Color chartColor = Colors.blue;
 
   @override
   State<LuxChart> createState() => _LuxChartState();
@@ -19,7 +18,7 @@ class LuxChart extends StatefulWidget {
 
 class _LuxChartState extends State<LuxChart> {
   final limitCount = 50;
-  final sinPoints = <FlSpot>[];
+  final luxPoints = <FlSpot>[];
 
   double xValue = 0;
   double step = 1;
@@ -30,11 +29,11 @@ class _LuxChartState extends State<LuxChart> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      while (sinPoints.length > limitCount) {
-        sinPoints.removeAt(0);
+      while (luxPoints.length > limitCount) {
+        luxPoints.removeAt(0);
       }
       setState(() {
-        sinPoints.add(FlSpot(xValue, widget.homePageState.luxValue));
+        luxPoints.add(FlSpot(xValue, widget.homePageState.luxValue));
       });
       xValue += step;
     });
@@ -42,7 +41,7 @@ class _LuxChartState extends State<LuxChart> {
 
   @override
   Widget build(BuildContext context) {
-    return sinPoints.isNotEmpty
+    return luxPoints.isNotEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -55,8 +54,8 @@ class _LuxChartState extends State<LuxChart> {
                     LineChartData(
                       minY: 0,
                       maxY: 1500,
-                      minX: sinPoints.first.x,
-                      maxX: sinPoints.last.x,
+                      minX: luxPoints.first.x,
+                      maxX: luxPoints.last.x,
                       lineTouchData: const LineTouchData(enabled: false),
                       clipData: const FlClipData.all(),
                       gridData: const FlGridData(
@@ -64,7 +63,7 @@ class _LuxChartState extends State<LuxChart> {
                         drawVerticalLine: false,
                       ),
                       borderData: FlBorderData(show: true),
-                      lineBarsData: [sinLine(sinPoints)],
+                      lineBarsData: [luxLine(luxPoints)],
                       titlesData: const FlTitlesData(show: true),
                     ),
                   ),
@@ -75,7 +74,7 @@ class _LuxChartState extends State<LuxChart> {
         : Container();
   }
 
-  LineChartBarData sinLine(List<FlSpot> points) {
+  LineChartBarData luxLine(List<FlSpot> points) {
     return LineChartBarData(
       spots: points,
       dotData: const FlDotData(show: true),
