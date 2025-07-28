@@ -17,7 +17,7 @@ class LuxChart extends StatefulWidget {
 }
 
 class _LuxChartState extends State<LuxChart> {
-  final limitCount = 50;
+  final limitCount = 60;
   final luxPoints = <FlSpot>[];
 
   double xValue = 0;
@@ -75,7 +75,17 @@ class _LuxChartState extends State<LuxChart> {
                   ),
                   leftTitles: AxisTitles(sideTitles: SideTitles()),
                   topTitles: AxisTitles(sideTitles: SideTitles()),
-                  bottomTitles: AxisTitles(sideTitles: SideTitles()),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      maxIncluded: false,
+                      minIncluded: luxPoints.length < limitCount,
+                      interval: getInterval(),
+                      getTitlesWidget: (value, meta) {
+                        return Text(" ${(value / 2).toStringAsFixed(0)} s");
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -95,6 +105,17 @@ class _LuxChartState extends State<LuxChart> {
       barWidth: 2,
       isCurved: true,
     );
+  }
+
+  double getInterval() {
+    double result = 10; // mark every 5s
+    var length = luxPoints.length;
+    if (length < 20) {
+      result = 2; // every second
+    } else if (length < 40) {
+      result = 4; // every two seconds
+    }
+    return result;
   }
 
   @override
