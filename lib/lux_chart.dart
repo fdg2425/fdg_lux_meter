@@ -96,13 +96,48 @@ class _LuxChartState extends State<LuxChart> {
   LineChartBarData luxLine(List<FlSpot> points) {
     return LineChartBarData(
       spots: points,
-      dotData: const FlDotData(show: true),
-      color: Colors.blue,
+      dotData: FlDotData(
+        show: true,
+        getDotPainter:
+            (
+              FlSpot spot,
+              double xPercentage,
+              LineChartBarData bar,
+              int index, {
+              double? barWidth,
+            }) {
+              return FlDotCirclePainter(
+                radius: 3,
+                color: Colors.blue,
+                strokeWidth: 1,
+                strokeColor: Colors.white,
+              );
+            },
+      ),
+      //color: Colors.blue,
+      // The following gradient would show small values in red and big ones in green.
+      // Because I plan that the user can select the max value of the y axis, it would be
+      // difficult to correlate these colors to the corresponding colors in the gauge.
+      // Therefore we stay with blue.
       // gradient: LinearGradient(
-      //   colors: [widget.sinColor.withValues(alpha: 0), widget.sinColor],
-      //   stops: const [0.1, 1.0],
+      //   begin: Alignment.bottomCenter,
+      //   end: Alignment.topCenter,
+      //   colors: [Colors.red, Colors.orange, Colors.green],
+      //   stops: const [0.1, 0.3, 0.6],
       // ),
       barWidth: 2,
+      belowBarData: BarAreaData(
+        show: true,
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.blue.withValues(alpha: 0.7),
+            Colors.blue.withValues(alpha: 0.1),
+          ],
+          stops: const [0, 0.9],
+        ),
+      ),
       isCurved: true,
     );
   }
