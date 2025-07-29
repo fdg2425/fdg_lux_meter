@@ -42,49 +42,57 @@ class _LuxChartState extends State<LuxChart> {
   @override
   Widget build(BuildContext context) {
     return luxPoints.isNotEmpty
-        ?
-          // With a Column around the Padding the Expanded in main did not work -> chart was not shown ?!
-          // Therefore I deleted the Column here
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
-            child: LineChart(
-              duration: Duration.zero,
-              LineChartData(
-                minY: 0,
-                maxY: widget.homePageState.settingsProvider.maxOnYAxis,
-                minX: luxPoints.first.x,
-                maxX: luxPoints.last.x,
-                lineTouchData: const LineTouchData(enabled: false),
-                clipData: const FlClipData.all(),
-                gridData: const FlGridData(show: true, drawVerticalLine: false),
-                borderData: FlBorderData(show: true),
-                lineBarsData: [luxLine(luxPoints)],
-                titlesData: FlTitlesData(
-                  show: true,
-                  rightTitles: AxisTitles(
-                    //axisNameWidget: const Text("lux"),
-                    //axisNameSize: 20,
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 55,
-                      //interval: 250,
-                      getTitlesWidget: (value, meta) {
-                        return Text(" ${value.toStringAsFixed(0)} lx");
-                      },
-                    ),
+        ? GestureDetector(
+            onDoubleTap: () {
+              xValue = 0;
+              luxPoints.clear();
+            },
+            // With a Column around the Padding the Expanded in main did not work -> chart was not shown ?!
+            // Therefore I deleted the Column here
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+              child: LineChart(
+                duration: Duration.zero,
+                LineChartData(
+                  minY: 0,
+                  maxY: widget.homePageState.settingsProvider.maxOnYAxis,
+                  minX: luxPoints.first.x,
+                  maxX: luxPoints.last.x,
+                  lineTouchData: const LineTouchData(enabled: false),
+                  clipData: const FlClipData.all(),
+                  gridData: const FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
                   ),
-                  leftTitles: AxisTitles(sideTitles: SideTitles()),
-                  topTitles: AxisTitles(sideTitles: SideTitles()),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles:
-                          widget.homePageState.settingsProvider.showXAxis,
-                      maxIncluded: false,
-                      minIncluded: luxPoints.length < limitCount,
-                      interval: getInterval(),
-                      getTitlesWidget: (value, meta) {
-                        return Text(" ${(value / 2).toStringAsFixed(0)} s");
-                      },
+                  borderData: FlBorderData(show: true),
+                  lineBarsData: [luxLine(luxPoints)],
+                  titlesData: FlTitlesData(
+                    show: true,
+                    rightTitles: AxisTitles(
+                      //axisNameWidget: const Text("lux"),
+                      //axisNameSize: 20,
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 55,
+                        //interval: 250,
+                        getTitlesWidget: (value, meta) {
+                          return Text(" ${value.toStringAsFixed(0)} lx");
+                        },
+                      ),
+                    ),
+                    leftTitles: AxisTitles(sideTitles: SideTitles()),
+                    topTitles: AxisTitles(sideTitles: SideTitles()),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles:
+                            widget.homePageState.settingsProvider.showXAxis,
+                        maxIncluded: false,
+                        minIncluded: luxPoints.length < limitCount,
+                        interval: getInterval(),
+                        getTitlesWidget: (value, meta) {
+                          return Text(" ${(value / 2).toStringAsFixed(0)} s");
+                        },
+                      ),
                     ),
                   ),
                 ),
