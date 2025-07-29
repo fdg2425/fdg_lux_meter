@@ -52,9 +52,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage> {
-  double sliderValue = 100;
+  double sliderValue = 400;
   final double maxSliderValue = 2000;
-  double _luxValue = 100;
+  double _luxValue = 400;
   late SettingsProvider settingsProvider;
 
   double get luxValue => _luxValue;
