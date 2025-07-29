@@ -22,7 +22,7 @@ class SettingsProvider {
 
   final Function() callbackOnSettingsChange;
 
-  bool _showDots = false;
+  bool _showDots = true;
   bool get showDots => _showDots;
   set showDots(bool value) {
     if (value != _showDots) {
@@ -42,7 +42,7 @@ class SettingsProvider {
     }
   }
 
-  bool _showXAxis = false;
+  bool _showXAxis = true;
   bool get showXAxis => _showXAxis;
   set showXAxis(bool value) {
     if (value != _showXAxis) {
