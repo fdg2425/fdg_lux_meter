@@ -13,10 +13,6 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final textStyleNormal = const TextStyle(fontSize: 18);
-  final textStyleUnderlined = const TextStyle(
-    fontSize: 18,
-    decoration: TextDecoration.underline,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +26,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(25.0, 20, 10, 10),
               child: Text(
-                "Maximum value on y axis: ${widget.settingsProvider.maxOnYAxis.toStringAsFixed(0)}",
+                "Maximum value on y-axis: ${widget.settingsProvider.maxOnYAxis.toStringAsFixed(0)}",
                 style: textStyleNormal,
               ),
             ),
@@ -53,7 +49,8 @@ class _SettingsPageState extends State<SettingsPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 20, 10, 10),
               child: SwitchListTile(
-                title: Text("Show time in the x axis?", style: textStyleNormal),
+                title: Text("Show time in the x-axis?", style: textStyleNormal),
+                subtitle: Text("Hint: double-tap on the chart resets time."),
                 value: widget.settingsProvider.showXAxis,
                 onChanged: (value) {
                   setState(() {
@@ -93,21 +90,56 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const Divider(),
             Padding(
+              padding: const EdgeInsets.fromLTRB(25.0, 20, 10, 10),
+              child: Text(
+                "Use light or dark mode for this app?",
+                style: textStyleNormal,
+              ),
+            ),
+            getThemeModeRadioListTile("same as defined in System", "system"),
+            getThemeModeRadioListTile("always light", "light"),
+            getThemeModeRadioListTile("always dark", "dark"),
+            const Divider(),
+            Padding(
               padding: const EdgeInsets.fromLTRB(25.0, 10, 25, 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Version info", style: textStyleUnderlined),
                   Text(
-                    "This is version 0.5 from 05-Jul-2025,\n"
+                    "Version info:",
+                    style: const TextStyle(
+                      fontSize: 16,
+                      //decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  Text(
+                    "This is version 0.2.0 from 29-Jul-2025,\n"
                     "developed during a Flutter training at FDG.",
-                    style: textStyleNormal,
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget getThemeModeRadioListTile(String title, String radioValue) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: RadioListTile<String>(
+        title: Text(title, style: textStyleNormal),
+        value: radioValue,
+        groupValue: widget.settingsProvider.themeModeAsString,
+        onChanged: (String? value) {
+          if (value != null) {
+            setState(() {
+              widget.settingsProvider.themeModeAsString = radioValue;
+            });
+          }
+        },
       ),
     );
   }

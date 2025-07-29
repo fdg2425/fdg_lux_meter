@@ -27,25 +27,60 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late SettingsProvider _settingsProvider;
+
+  void refresh() {
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _settingsProvider = SettingsProvider(callbackOnSettingsChange: refresh);
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Training at FDG',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.blue, // Set AppBar background color here
+          foregroundColor: Colors.white, // Text/icon color
+          centerTitle: true,
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: Brightness.dark,
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor:
+              Colors.grey.shade900, // Set AppBar background color here
+          // foregroundColor: Colors.white, // Text/icon color
+          centerTitle: true,
+        ),
+      ),
+      themeMode: _settingsProvider.themeMode,
+      home: MyHomePage(settingsProvider: _settingsProvider),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.settingsProvider});
 
-  final String title;
+  final SettingsProvider settingsProvider;
 
   @override
   State<MyHomePage> createState() => MyHomePageState();
@@ -55,9 +90,10 @@ class MyHomePageState extends State<MyHomePage> {
   double sliderValue = 400;
   final double maxSliderValue = 2000;
   double _luxValue = 400;
-  late SettingsProvider settingsProvider;
 
   double get luxValue => _luxValue;
+
+  SettingsProvider get settingsProvider => widget.settingsProvider;
 
   StreamSubscription<int>? _lightEvents;
 
@@ -80,14 +116,9 @@ class MyHomePageState extends State<MyHomePage> {
     _lightEvents?.cancel();
   }
 
-  void refresh() {
-    setState(() {});
-  }
-
   @override
   void initState() {
     super.initState();
-    settingsProvider = SettingsProvider(callbackOnSettingsChange: refresh);
     startListening();
   }
 
@@ -102,9 +133,6 @@ class MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         //backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        centerTitle: true,
         //title: Text(widget.title),
         title: Text("FDG Lux Meter"),
         actions: [

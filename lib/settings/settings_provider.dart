@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../main.dart';
 
 class SettingsProvider {
@@ -17,6 +19,10 @@ class SettingsProvider {
     double? dValue = globalPrefs.getDouble("maxOnYAxis");
     if (dValue != null) {
       _maxOnYAxis = dValue;
+    }
+    String? sValue = globalPrefs.getString("themeModeAsString");
+    if (sValue != null) {
+      _themeModeAsString = sValue;
     }
   }
 
@@ -60,5 +66,26 @@ class SettingsProvider {
       globalPrefs.setDouble("maxOnYAxis", value);
       callbackOnSettingsChange();
     }
+  }
+
+  String _themeModeAsString = "system";
+  String get themeModeAsString => _themeModeAsString;
+  set themeModeAsString(String value) {
+    if (value != _themeModeAsString) {
+      _themeModeAsString = value;
+      globalPrefs.setString("themeModeAsString", value);
+      callbackOnSettingsChange();
+    }
+  }
+
+  ThemeMode get themeMode {
+    var result = ThemeMode.system;
+    if (_themeModeAsString == "light") {
+      result = ThemeMode.light;
+    }
+    if (_themeModeAsString == "dark") {
+      result = ThemeMode.dark;
+    }
+    return result;
   }
 }

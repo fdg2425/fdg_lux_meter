@@ -64,7 +64,10 @@ class _LuxChartState extends State<LuxChart> {
                     show: true,
                     drawVerticalLine: false,
                   ),
-                  borderData: FlBorderData(show: true),
+                  borderData: FlBorderData(
+                    show: true,
+                    border: Border.all(color: Colors.grey.shade800),
+                  ),
                   lineBarsData: [luxLine(luxPoints)],
                   titlesData: FlTitlesData(
                     show: true,
@@ -119,7 +122,9 @@ class _LuxChartState extends State<LuxChart> {
                 radius: 3,
                 color: Colors.blue,
                 strokeWidth: 1,
-                strokeColor: Colors.white,
+                strokeColor: Theme.of(context).brightness == Brightness.light
+                    ? Colors.white
+                    : Colors.grey.shade900,
               );
             },
       ),
