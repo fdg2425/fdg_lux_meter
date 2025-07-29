@@ -28,7 +28,7 @@ class SettingsProvider {
 
   final Function() callbackOnSettingsChange;
 
-  bool _showDots = true;
+  bool _showDots = false;
   bool get showDots => _showDots;
   set showDots(bool value) {
     if (value != _showDots) {
