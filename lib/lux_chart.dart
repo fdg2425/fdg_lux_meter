@@ -50,7 +50,7 @@ class _LuxChartState extends State<LuxChart> {
             // With a Column around the Padding the Expanded in main did not work -> chart was not shown ?!
             // Therefore I deleted the Column here
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+              padding: const EdgeInsets.fromLTRB(15, 10, 10, 30),
               child: LineChart(
                 duration: Duration.zero,
                 LineChartData(
