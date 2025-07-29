@@ -51,7 +51,7 @@ class _LuxChartState extends State<LuxChart> {
               duration: Duration.zero,
               LineChartData(
                 minY: 0,
-                maxY: 2000,
+                maxY: widget.homePageState.settingsProvider.maxOnYAxis,
                 minX: luxPoints.first.x,
                 maxX: luxPoints.last.x,
                 lineTouchData: const LineTouchData(enabled: false),
@@ -77,7 +77,8 @@ class _LuxChartState extends State<LuxChart> {
                   topTitles: AxisTitles(sideTitles: SideTitles()),
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
-                      showTitles: true,
+                      showTitles:
+                          widget.homePageState.settingsProvider.showXAxis,
                       maxIncluded: false,
                       minIncluded: luxPoints.length < limitCount,
                       interval: getInterval(),
@@ -97,7 +98,7 @@ class _LuxChartState extends State<LuxChart> {
     return LineChartBarData(
       spots: points,
       dotData: FlDotData(
-        show: true,
+        show: widget.homePageState.settingsProvider.showDots,
         getDotPainter:
             (
               FlSpot spot,
@@ -114,7 +115,7 @@ class _LuxChartState extends State<LuxChart> {
               );
             },
       ),
-      //color: Colors.blue,
+      color: Colors.blue,
       // The following gradient would show small values in red and big ones in green.
       // Because I plan that the user can select the max value of the y axis, it would be
       // difficult to correlate these colors to the corresponding colors in the gauge.
@@ -127,7 +128,7 @@ class _LuxChartState extends State<LuxChart> {
       // ),
       barWidth: 2,
       belowBarData: BarAreaData(
-        show: true,
+        show: widget.homePageState.settingsProvider.showBelowBarData,
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

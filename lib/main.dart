@@ -4,11 +4,26 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:light/light.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import 'lux_chart.dart';
+import 'settings/settings_page.dart';
+import 'settings/settings_provider.dart';
 
-void main() {
+// Declare a global late variable for SharedPreferences
+// This will be initialized once in the main function.
+late SharedPreferences globalPrefs;
+
+void main() async {
+  // Ensure that the Flutter binding is initialized. This is required before
+  // calling any plugin-specific code, including SharedPreferences.getInstance().
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize the global SharedPreferences instance here.
+  // This ensures it's available throughout the app after startup.
+  globalPrefs = await SharedPreferences.getInstance();
+
   runApp(const MyApp());
 }
 
@@ -40,6 +55,7 @@ class MyHomePageState extends State<MyHomePage> {
   double sliderValue = 100;
   final double maxSliderValue = 2000;
   double _luxValue = 100;
+  late SettingsProvider settingsProvider;
 
   double get luxValue => _luxValue;
 
@@ -64,9 +80,14 @@ class MyHomePageState extends State<MyHomePage> {
     _lightEvents?.cancel();
   }
 
+  void refresh() {
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
+    settingsProvider = SettingsProvider(callbackOnSettingsChange: refresh);
     startListening();
   }
 
@@ -86,6 +107,20 @@ class MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         //title: Text(widget.title),
         title: Text("FDG Lux Meter"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      SettingsPage(settingsProvider: settingsProvider),
+                ),
+              );
+            },
+            icon: Icon(Icons.settings),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
